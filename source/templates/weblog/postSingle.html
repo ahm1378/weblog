@@ -1,0 +1,35 @@
+{% extends 'weblog/base.html' %}
+{% load static %}
+
+
+{%block title %}posts{% endblock %}
+
+
+{% block body %}
+
+
+<div class="container">
+<div class="mx-auto text-center">
+    <h3 class="text-primary mx-auto">
+        {{ post.title }}
+    </h3>
+</div>
+    <div>
+   <p style="text-align:center" >
+<img  src="{{ post.attachment.url }}" alt="">
+    </p>
+    </div>
+
+    <div  class="post-preview bg-secondary text-light px-2" style="text-align:justify">
+        <p>
+  {{ post.body }}
+
+    </div>
+    </p>
+          <p class="post-meta  bg-info text-light">Posted by
+            <a href="{% url 'Get_post_username' post.author.id  %}" class="text-light">{{ post.author.user.first_name }}</a>
+
+            on {{ post.create_at}}</p>
+</div>
+
+{% endblock %}

@@ -1,0 +1,8 @@
+from django.db import models
+
+class BaseModel(models.Model):
+    create_at = models.DateTimeField(verbose_name="Create at", auto_now_add=True)
+    update_at = models.DateTimeField(verbose_name="Updated_at", auto_now=True)
+
+    class Meta:
+        abstract=True

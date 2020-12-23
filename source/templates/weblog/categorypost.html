@@ -1,0 +1,96 @@
+{% extends 'weblog/base.html' %}
+{% load static %}
+
+
+{%block title %}posts{% endblock %}
+
+
+{% block body %}
+<header class="masthead" style="background-image: url({% static 'post/img/home-bg.jpg' %})">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h1> maktab weblog project</h1>
+                    <span class="subheading">A  Welog by amirossein mohammadpour</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            {% for post in post_cat %}
+            <div class="post-preview bg-info text-light ">
+                <a href="{% url 'post_detail' post.slug %}">
+                    <h2 class="post-title text-light">
+
+                        {{ post.title }}
+                    </h2>
+                    <h3 class="post-subtitle text-light">
+                        {{ post.body|truncatewords:"20" }}
+                    </h3>
+                </a>
+                <p class="post-meta  bg-info text-light">Posted by
+                    <a href="{% url 'Get_post_username' post.author.id  %}" class="text-light">{{
+                        post.author.user.first_name }}</a>
+
+
+                    on {{ post.create_at}}</p>
+                <h3>{{ post.category }}</h3>
+            </div>
+            <hr>
+
+            {% endfor %}
+
+            <!-- Pager -->
+            <div class="clearfix">
+                <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <ul class="list-inline text-center">
+                    <li class="list-inline-item">
+                        <a href="#">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock %}

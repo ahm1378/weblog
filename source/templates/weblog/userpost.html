@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'author/userdetail.css' %}">
+</head>
+
+<body>
+
+
+    <div class="maindiv" >
+
+    </div>
+    <div class="muck-up">
+        <div class="overlay"></div>
+        <div class="top">
+            <div class="nav">
+                <span class="ion-android-menu"></span>
+                <p>UserDetails</p>
+                <span class="ion-ios-more-outline"></span>
+            </div>
+            {% for po in post_user|slice:":1" %}
+            <div class="user-profile">
+                <img src="{{ po.author.avatar.url }}">
+                <div class="user-details">
+
+    <h4>
+        {{ po.author.user.first_name }}
+        {{ po.author.user.last_name }}
+
+    </h4>
+    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom">
+            <div class="title">
+                <h3>posts</h3>
+
+            </div>
+            {% for po in post_user %}
+            <ul class="tasks">
+                </li>
+                <li class="tow green hang">
+                   <a href="{% url 'post_detail' po.slug %}">
+                       <h4>{{ po.title }}</h4>
+                   </a>
+                    <small>{{ po.create_at }}</small>
+
+                </li>
+
+
+
+            </ul>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>

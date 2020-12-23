@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>blog | {% block title %}{% endblock %}</title>
+    <!--    <link rel="stylesheet" type="text/css" href="{% static 'post/css/style.css' %}"> -->
+
+    <link href="{% static 'post/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="{% static 'post/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'post/css/clean-blog.min.css' %}" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg  navbar-light bg-light">
+    <a class="navbar-brand" href="{% url 'home'  %}">Home</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'signup'  %}">Sign <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Login</a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Category
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    {% for cat in category_list %}
+                    <a class="dropdown-item" href="{% url 'getcategory' cat.id %}">{{ cat.title }}</a>
+                    {% endfor %}
+                </div>
+
+            </li>
+        </ul>
+    </div>
+</nav>
+{% block body %}{% endblock %}
+</body>
+<script src=" {% static 'post/vendor/jquery/jquery.min.js' %}"></script>
+<script src=" {% static 'post/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+</html>
