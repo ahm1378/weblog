@@ -18,9 +18,9 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-
-from post.views import post_list, home, post_details, get_post_username, get_post_category, PostArchive, PostSingle, \
-    RegisretView, LoginView, like_comment, create_comment
+from author.views import RegisretView, LoginView
+from comment.views import like_comment, create_comment
+from post.views import post_list, home, post_details, get_post_username, get_post_category, PostArchive, PostSingle
 
 urlpatterns = [
     path('admin/', admin.site.urls),
