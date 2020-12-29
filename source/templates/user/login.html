@@ -1,0 +1,38 @@
+{% extends 'user/base.html' %}
+{% load static %}
+
+
+{%block title %}login{% endblock %}
+
+
+
+
+{% block body %}
+<body style="background-image: url({% static 'post/img/home-bg.jpg' %})">
+<!-- <h1>Log In</h1>-->
+<!--    <form action="{{ form.action }}" method="post">-->
+<!--        {% csrf_token %}-->
+<!--        {{ form }}-->
+<!--        <input type="submit" value="Log In">-->
+<!--    </form>-->
+<!--{% for field in form %}-->
+<!--<div class="fieldWrapper">-->
+<!--    {{ field.label_tag }} {{ field }}-->
+<!--</div>-->
+<!--{% endfor %}-->
+<div class="login">
+    <h1>Login</h1>
+    <form  method="post" >
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="fieldWrapper">
+            {{ field.errors}}
+        {{ field.label_tag }}{{ field }}
+        </div>
+        {% endfor %}
+        <input type="submit" value="Log In" class="btn btn-primary btn-block btn-large">
+        <a href="{% url 'signup'  %}">register now</a>
+    </form>
+</div>
+</body>
+{% endblock %}

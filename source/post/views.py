@@ -1,11 +1,13 @@
 import json
+from urllib.request import Request
 
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.forms import Form
+from django.http import HttpResponse, request
+from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import ListView, FormView, DetailView
+from django.views.generic import ListView, FormView, DetailView, CreateView
 # Create your views here.
 from author.forms import LoginForm, RegistrationFrom
 from author.models import Author
@@ -75,10 +77,38 @@ def get_post_category(request,id):
 class PostArchive(ListView):
     post_count = Post.objects.all().count()
     model = Post
-
     queryset = Post.objects.all()[2:post_count]
     template_name = 'weblog/home.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category_list'] = get_category()
+        return context
 
+
+class CommentCreateView(CreateView):
+    model = Comment
+    form_class = CommentForm
+    def form_valid(self, form):
+        post = get_object_or_404(Request, slug = self.kwargs ['slug'])
+        user=request.user
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author=Author.objects.filter(user=user).first()
+            comment.post = post
+            comment.save()
+        return super().form_valid(form)
+
+
+class CategoryDetails(DetailView):
+    model = Category
+    template_name = 'weblog/categorypost.html'
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context['post_cat'] =Post.objects.filter(category__id=self.kwargs.get('pk'))
+        context['category_list'] = get_category()
+
+        return context
 
 
 
@@ -88,6 +118,13 @@ class PostArchive(ListView):
 class PostSingle(DetailView):
     model = Post
     template_name = 'weblog/postSingle.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        post = context['post']
+        context['comments'] = post.comment_set.filter(is_confirmed=True)
+        context['form'] = CommentForm()
+        context['category_list'] = get_category()
+        return context
 
 
 

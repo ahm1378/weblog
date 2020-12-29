@@ -34,7 +34,8 @@
     <div>
         <form id="comment_form">
             {% csrf_token %}
-            {% include 'content/form.html' %}
+<!--            {% include 'content/form.html' %}-->
+            {{form}}
             <input type="submit" value="ok">
         </form>
     </div>

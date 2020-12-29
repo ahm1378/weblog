@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>blog | {% block title %}{% endblock %}</title>
+    <!--    <link rel="stylesheet" type="text/css" href="{% static 'post/css/style.css' %}"> -->
+
+    <link href="{% static 'post/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="{% static 'post/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'author/css/login_style.css' %}" rel="stylesheet">
+
+</head>
+
+
+{% block body %}{% endblock %}
+
+<script src=" {% static 'post/vendor/jquery/jquery.min.js' %}"></script>
+<script src=" {% static 'post/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+{% block javascript %}{% endblock %}
+</html>

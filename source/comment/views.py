@@ -1,14 +1,30 @@
 import json
 
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, request
 from django.shortcuts import render
 
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import FormView
 
 from author.models import Author
+from comment.commentform import CommentForm
 from comment.models import Comment, CommentLike
+from post.models import Post
+
+
+class CommnetShow(FormView):
+    form_class = CommentForm
+    template_name = "user/register.html"
+    def form_valid(self, form):
+        user=request.user
+        post=Post.objects.filter(slug=slug).first()
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author=Author.objects.filter(user=user).first()
+            comment.post = post
+            comment.save()
 
 
 @csrf_exempt
