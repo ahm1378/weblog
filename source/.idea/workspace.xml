@@ -3,15 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="35081fea-1741-4900-ba5c-65a55685c45a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/author/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/author/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/comment/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/comment/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/post/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/post/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/weblog/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/weblog/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/weblog/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/weblog/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/weblog/login.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/weblog/postSingle.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/weblog/postSingle.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/weblog/register.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/weblog/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/weblog/urls.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -201,7 +193,7 @@
       <workItem from="1609190008643" duration="10259000" />
       <workItem from="1609220957643" duration="4134000" />
       <workItem from="1609231580958" duration="1346000" />
-      <workItem from="1609262984872" duration="11980000" />
+      <workItem from="1609262984872" duration="15389000" />
     </task>
     <servers />
   </component>

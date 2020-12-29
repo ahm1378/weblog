@@ -42,10 +42,9 @@
     <div id="comment_container">
         {% for comment in comments %}
         <div>
-            {{ comment.author.user.username }}
-            <div class="mt-3">
+            <div class="mt-3 p-3 mb-2 bg-dark text-white">
+                <div>written by  <a href="" class="text-white"> {{ comment.author.user.username }}</a></div>
                 {{ comment.content }}
-            </div>
             <div>
                 dislikse:<span id="dislike_count_container{{ comment.id }}">{{ comment.dislike_count }}</span>
                 <br>
@@ -94,11 +93,12 @@
             success: function (response) {
                 const data = JSON.parse(response)
                 $( "#comment_container" ).prepend( `<div>
-                                ${data.full_name}
-                                <div class="mt-3">
-                                    <div>
-                                         ${data.content}
-                                    </div>
+
+
+                                 <div class="mt-3 p-3 mb-2 bg-dark text-white">
+                <div>written by  <a href="" class="text-white"> ${data.username}</a></div>
+                ${data.content}
+
                                     <div>
                                         dislikse:<span id="dislike_count_container${data.comment_id}">${data.dislike_count}</span>
                                         <br>
