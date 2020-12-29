@@ -1,16 +1,11 @@
 from  django import forms
-from django.contrib.auth.forms import UserCreationForm
-from django.forms import ModelForm
 from django.utils.translation import ugettext_lazy  as _
-from django.contrib.auth.models import User
-from author.models import Author
-from  comment.models import  Comment
+from  comment.models import Comment
 
-class CommentForm(ModelForm):
+class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ('content', )
-        labels=('content',_("comment"))
-        widgets = {
-            'content': forms.Textarea,
-        }
+        fields = ('content',)
+        labels = {'content': _("Comment"), }
+        help_texts = {'content': _('enter your comment'), }
+        widgets = {'content': forms.Textarea}

@@ -1,10 +1,17 @@
-from django.contrib.auth import authenticate
+import json
+
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, FormView, DetailView
 # Create your views here.
 from author.forms import LoginForm, RegistrationFrom
+from author.models import Author
 from category.models import Category
+from comment.commentform import CommentForm
+from comment.models import Comment, CommentLike
 from lib.functions import get_category
 from post.models import Post
 
@@ -30,8 +37,22 @@ def home(request):
 
 
 def post_details(request,slug):
+    user=request.user
     post=Post.objects.filter(slug=slug).first()
-    context={"post":post,"category_list":get_category()}
+    context={"post":post,
+             "category_list":get_category(),
+             'form': CommentForm(),
+             'comments': post.comment_set.filter(is_confirmed=True)}
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author=Author.objects.filter(user=user).first()
+            comment.post = post
+            comment.save()
+        else:
+            context['form'] = form
+
     return render(request,'weblog/postSingle.html',context=context)
 
 
@@ -59,30 +80,7 @@ class PostArchive(ListView):
     template_name = 'weblog/home.html'
 
 
-def get_context_data(self, *, object_list=None, **kwargs):
-    """Get the context for this view."""
-    queryset = object_list if object_list is not None else self.object_list
-    page_size = self.get_paginate_by(queryset)
-    context_object_name = self.get_context_object_name(queryset)
-    if page_size:
-        paginator, page, queryset, is_paginated = self.paginate_queryset(queryset, page_size)
-        context = {
-            'paginator': paginator,
-            'page_obj': page,
-            'is_paginated': is_paginated,
-            'object_list': queryset
-        }
-    else:
-        context = {
-            'paginator': None,
-            'page_obj': None,
-            'is_paginated': False,
-            'object_list': queryset
-        }
-    if context_object_name is not None:
-        context[context_object_name] = queryset
-    context.update(kwargs)
-    return super().get_context_data(**context)
+
 
 class LoginView(FormView):
     form_class = LoginForm
@@ -90,7 +88,7 @@ class LoginView(FormView):
     success_url = '/home/'
 
     def form_valid(self, form):
-        user=authenticate()
+        login(self.request,form.cleaned_data['user'])
         return super().form_valid(form)
 
 
@@ -106,7 +104,19 @@ class RegisretView(FormView):
         form.save()
         return  super().form_valid(form)
 
-
+@csrf_exempt
+def create_comment(request):
+    data = json.loads(request.body)
+    user = request.user
+    author_mine=Author.objects.filter(user=user).first()
+    try:
+        comment = Comment.objects.create(post_id=data['post_id'], content=data['content'], author=author_mine)
+        response = {"comment_id": comment.id, "content": comment.content, 'dislike_count': 0, 'like_count': 0,
+                    'full_name': user.get_full_name()}
+        return HttpResponse(json.dumps(response), status=201)
+    except:
+        response = {"error": 'error'}
+        return HttpResponse(json.dumps(response), status=400)
 
 
 class PostSingle(DetailView):
@@ -114,5 +124,25 @@ class PostSingle(DetailView):
     template_name = 'weblog/postSingle.html'
 
 
-class CategorySingle(DetailView):
-    pass
+
+@csrf_exempt
+@login_required
+def like_comment(request):
+    data = json.loads(request.body)
+    print(request.body)
+    user = request.user
+    author_mine=Author.objects.filter(user=user).first()
+    print(type(author_mine))
+    try:
+        comment = Comment.objects.get(id=data['comment_id'])
+        print(comment)
+    except Comment.DoesNotExist:
+        return HttpResponse('bad request', status=404)
+    try:
+         comment_like = CommentLike.objects.get(author=author_mine, comment=comment)
+         comment_like.condition = data['condition']
+         comment_like.save()
+    except CommentLike.DoesNotExist:
+        CommentLike.objects.create(author=author_mine, condition=data['condition'], comment=comment)
+    response = {"like_count": comment.like_count, 'dislike_count': comment.dislike_count}
+    return HttpResponse(json.dumps(response), status=201)

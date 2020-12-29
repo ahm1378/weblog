@@ -40,7 +40,7 @@ class Comment(BaseModel):
         ordering = ['-create_at']
 
     def __str__(self):
-        return self.post.title
+        return self.content
 
     @property
     def like_count(self):

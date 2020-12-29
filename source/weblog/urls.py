@@ -18,19 +18,21 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from author.views import signup, login_view
+
 from post.views import post_list, home, post_details, get_post_username, get_post_category, PostArchive, PostSingle, \
-    RegisretView, LoginView
+    RegisretView, LoginView, like_comment, create_comment
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('home/',PostArchive.as_view(),name='home'),
-    path('home/post/<slug:slug>',PostSingle.as_view(),name="post_detail"),
+    path('home/post/<slug:slug>',post_details,name="post_detail"),
     path('register/',RegisretView.as_view(),name='signup'),
     path('login/',LoginView.as_view(),name='login'),
     path('home/user<int:id>/',get_post_username,name="Get_post_username"),
     path('home/category<int:id>/', get_post_category, name="getcategory"),
+    path('home/like_comment/', like_comment, name='like_comment'),
+    path('home/comments/', create_comment, name='add_comment'),
 
     ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
