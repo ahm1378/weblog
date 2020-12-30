@@ -107,7 +107,6 @@ class CategoryDetails(DetailView):
         context = super().get_context_data(**kwargs)
         context['post_cat'] =Post.objects.filter(category__id=self.kwargs.get('pk'))
         context['category_list'] = get_category()
-
         return context
 
 
@@ -127,4 +126,12 @@ class PostSingle(DetailView):
         return context
 
 
+class UserCommonDetails(DetailView):
+    model = Category
+    template_name = 'weblog/userpost.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['post_user'] =Post.objects.filter(author__id=self.kwargs.get('pk'))
+        context['category_list'] = get_category()
 
+        return context

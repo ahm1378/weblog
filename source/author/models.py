@@ -25,8 +25,9 @@ User=get_user_model()
 
 
 class Author(BaseModel):
-    avatar=models.ImageField(verbose_name="avatar",upload_to="author/avatars/")
+    avatar=models.ImageField(verbose_name="avatar",upload_to="author/avatars/",blank=True,null=True)
     user =models.OneToOneField(User,related_name="author",on_delete=models.CASCADE)
+    bio=models.TextField(verbose_name="bio",null=True,blank=True)
 
     def __str__(self):
         return self.user.username

@@ -21,7 +21,7 @@ from django.urls import path
 from author.views import RegisretView, LoginView, LogoutView
 from comment.views import like_comment, create_comment
 from post.views import post_list, home, post_details, get_post_username, get_post_category, PostArchive, PostSingle, \
-    CategoryDetails
+    CategoryDetails, UserCommonDetails
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,7 +30,7 @@ urlpatterns = [
     path('home/post/<slug:slug>',PostSingle.as_view(),name="post_detail"),
     path('register/',RegisretView.as_view(),name='signup'),
     path('home/login/',LoginView.as_view(),name='login'),
-    path('home/user<int:id>/',get_post_username,name="Get_post_username"),
+    path('home/user<int:pk>/',UserCommonDetails.as_view(),name="Get_post_username"),
     path('home/category<int:pk>/', CategoryDetails.as_view(), name="getcategory"),
     path('home/like_comment/', like_comment, name='like_comment'),
     path('home/comments/', create_comment, name='add_comment'),

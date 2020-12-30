@@ -35,7 +35,7 @@ def create_comment(request):
     try:
         comment = Comment.objects.create(post_id=data['post_id'], content=data['content'], author=author_mine)
         response = {"comment_id": comment.id, "content": comment.content, 'dislike_count': 0, 'like_count': 0,
-                    'full_name': user.get_full_name()}
+                    'username': user.username}
         return HttpResponse(json.dumps(response), status=201)
     except:
         response = {"error": 'error'}

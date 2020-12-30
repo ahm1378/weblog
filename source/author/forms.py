@@ -40,7 +40,7 @@ from django.contrib.auth.models import User
 #     class Meta:
 #         model = User
 #         fields = ('username','password',)
-
+from author.models import Author
 
 
 class LoginForm(forms.Form):
@@ -66,6 +66,7 @@ class RegistrationFrom(forms.Form):
     password_2=forms.CharField(widget=forms.PasswordInput)
 
 
+
     def clean(self):
         password = self.cleaned_data.get('password', None)
         password_2 = self.cleaned_data.get('password_2', None)
@@ -83,6 +84,6 @@ class RegistrationFrom(forms.Form):
 
         }
         user=User.objects.create_user(username=data['username'],password=data['password'],email=data['email'])
-
-        return user
+        author=Author.objects.create(user=user)
+        return author
 
